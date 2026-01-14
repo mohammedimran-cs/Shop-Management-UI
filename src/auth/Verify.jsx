@@ -1,34 +1,57 @@
 import { useEffect, useState, useContext } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import api from "../api/api";
-import { Box, Typography, CircularProgress, Button, Paper } from "@mui/material";
+import { Box, Typography, CircularProgress, Button, Paper, TextField } from "@mui/material";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Verify() {
   const [params] = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("Verifying your email...");
-  const navigate = useNavigate();
+  const [error,setError] = useState({});
+  const [errorToken, setErrorToken] = useState(false);
+  const [email, setEmail] = useState("");
   const { showToast } = useContext(AuthContext);
+  const navigate = useNavigate();
 
 useEffect(() => {
   const verifyEmail = async () => {
     const token = params.get("token");
-    try {
-      const res = await api.get(`/auth/verify?token=${token}`);
-      setMessage(res.data.message);
-    } catch (err) {
-      setMessage(err.response?.data?.message || "Email verification failed. Please try again.");
-    } finally {
+    if(token){
+      try {
+        const res = await api.get(`/auth/verify?token=${token}`);
+        setMessage(res.data.message);
+        setErrorToken(true);
+      } catch (err) {
+        setMessage(err.response?.data?.message || "Email verification failed. Please try again.");
+        setErrorToken(false);
+      } finally {
+        setLoading(false);
+      }
+    } else {
       setLoading(false);
+      setMessage("Invalid verification link. Please Generate a new one.");
     }
   };
-  setTimeout(() => {
-     verifyEmail();
-  }, [5000]);
+  verifyEmail();
     
 }, []);
 
+  const handleClick = async () => {
+      try {
+        const res = await api.post("/auth/resend", { email: email });
+        navigate("/login");
+        showToast("We have sent a new verification email. Please check your inbox.", "info");
+      } catch (err) {
+        if(err.response?.data?.status === 'input error'){
+          setError(err.response.data.message);
+        }
+        else{
+          setError({});
+          showToast(err.response?.data?.message || "Failed to send verification email. Please try again.", "error");
+        }
+      }
+  };
 
   if (loading) {
     return (
@@ -54,9 +77,33 @@ useEffect(() => {
           textAlign: "center",
         }}
       >
-        <Typography variant="h6">
+      <Box >
+        {errorToken ? <Box m={2}>
           {message}
-        </Typography>
+        </Box> :
+        <>
+        <Box m={2}>
+          {message}
+        </Box>
+          <TextField
+            fullWidth
+            label="Email"
+            variant="outlined"
+            error={!!error.email}
+            helperText={error.email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Button
+            variant="contained"
+            sx={{ mt: 2 }}
+            onClick={handleClick}
+            disabled= {false}
+          >
+            Generate New Verification Email
+          </Button>
+        </>
+}
+      </Box>
       </Paper>
     </Box>
 

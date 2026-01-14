@@ -6,13 +6,15 @@ import {
   Button,
   Box,
   Paper,
-  Typography
+  Typography,
+  CircularProgress
 } from "@mui/material";
 import api from "../api/api";
 
 export default function Register() {
   const [form, setForm] = useState({userName: "",email: "",password: ""});
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const {showToast} = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -25,7 +27,7 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const res = await api.post("/auth/register", form);
       showToast(res.data.message, "info", 10000);
@@ -42,6 +44,9 @@ export default function Register() {
         else {
         alert("Registration failed");
         }
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -93,9 +98,12 @@ export default function Register() {
             fullWidth
             variant="contained"
             type="submit"
+            disabled={loading}
             sx={{ mt: 2 }}
           >
-            Register
+            {loading ? <CircularProgress size={24} sx={{ color: "white" }} />
+              : "Register"
+            }
           </Button>
         </Box>
       </Paper>

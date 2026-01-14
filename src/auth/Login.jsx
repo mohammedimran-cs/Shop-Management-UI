@@ -7,13 +7,13 @@ import {
   Box,
   Paper,
   Typography,
-  Snackbar,
-  Alert
+  CircularProgress
 } from "@mui/material";
 import api from "../api/api";
 
 export default function Login() {
   const [form, setForm] = useState({email: "",password: ""});
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const { login, showToast } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const res = await api.post("/auth/login", form);
 
@@ -48,7 +48,10 @@ export default function Login() {
         else {
             showToast("Login failed", "error");
         }
-      }
+    }
+    finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -59,8 +62,8 @@ export default function Login() {
       height="100vh"
     >
       <Paper elevation={4} sx={{ padding: 4, width: 350 }}>
-        <Typography variant="h5" align="center" mb={2}>
-          Login
+        <Typography variant="h5" align="center" mb={2} fontWeight={550} >
+          SHOP MANAGEMENT
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit}>
@@ -94,9 +97,12 @@ export default function Login() {
             fullWidth
             variant="contained"
             type="submit"
+            disabled={loading}
             sx={{ mt: 2 }}
           >
-            Login
+            {loading ? <CircularProgress size={24} sx={{ color: "blue" }} />
+             : "Sign In"
+            }
           </Button>
         </Box>
         <Box mt={2} display="flex" justifyContent="center">

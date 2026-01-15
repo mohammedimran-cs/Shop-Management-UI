@@ -90,7 +90,13 @@ export default function Login() {
           /> 
 
           <Typography variant="body2" mt={1}>
-            <a href="/forgot-password">Forgot Password?</a>
+            <Button
+              variant="text"
+              sx={{ textTransform: 'none', padding: 0, minWidth: 0 }}
+              onClick={() => navigate('/forgot-password')}
+            >
+              Forgot Password?
+            </Button>
           </Typography>
 
           <Button

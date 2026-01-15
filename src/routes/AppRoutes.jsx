@@ -5,6 +5,8 @@ import Home from "../pages/Home";
 import Products from "../pages/Products";
 import Layout from "../pages/Layout";
 import Verify from "../auth/Verify";
+import ResetPassword from "../auth/ResetPassword";
+import ForgotPassword from "../auth/ForgotPassword";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
@@ -18,6 +20,8 @@ export default function AppRoutes() {
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
         <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
         <Route path="/verify" element={user ? <Navigate to="/" /> : <Verify />} />
+        <Route path="/forgot-password" element={user ? <Navigate to="/" /> : <ForgotPassword />} /> 
+        <Route path="/reset/:token" element={user ? <Navigate to="/" /> : <ResetPassword />} />
 
         {/* Protected */}
         <Route element={<Layout />}>

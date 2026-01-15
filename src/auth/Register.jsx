@@ -15,6 +15,7 @@ export default function Register() {
   const [form, setForm] = useState({userName: "",email: "",password: ""});
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [resendLink, setResendLink] = useState(false);
   const {showToast} = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -34,15 +35,26 @@ export default function Register() {
       navigate("/login");
     } 
     catch (err) {
-        if (err.response?.data?.status == 'error') {
+        if (err.response?.data?.status == 'registered') {
             showToast(err.response.data.message, "error");
             setErrors({});
+        }
+        else if (err.response?.data?.status == 'error'){
+          if(err.response.data.message == true){
+            showToast("This email is already registered but not enabled.\nTo enable Please check your email for the activation link.", "info");
+            setErrors({});
+          }
+          else{
+            showToast("This email is already registered but not enabled.\nTo enable Please Generate a new activation link.", "info");
+            setResendLink(true);
+            setErrors({});
+          }
         }
         else if (err.response?.data?.message) {
             setErrors(err.response.data.message);
         } 
         else {
-        alert("Registration failed");
+            showToast("Registration failed. Please try again.", "error");
         }
     }
     finally {
@@ -105,6 +117,9 @@ export default function Register() {
               : "Register"
             }
           </Button>
+          {resendLink && <Box mt={2} display="flex" justifyContent="end">
+            <Button onClick={() => navigate("/verify")}>Generate verification Link</Button>
+          </Box>}
         </Box>
       </Paper>
     </Box>

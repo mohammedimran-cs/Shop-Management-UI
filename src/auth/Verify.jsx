@@ -30,33 +30,38 @@ useEffect(() => {
       }
     } else {
       setLoading(false);
-      setMessage("Invalid verification link. Please Generate a new one.");
+      setMessage("Please Generate a verification link.");
     }
   };
   verifyEmail();
     
 }, []);
 
-  const handleClick = async () => {
+  const handleClick = async (e) => {
+    e.preventDefault();
+    setLoading(true);
       try {
         const res = await api.post("/auth/resend", { email: email });
         navigate("/login");
         showToast("We have sent a new verification email. Please check your inbox.", "info");
       } catch (err) {
-        if(err.response?.data?.status === 'input error'){
-          setError(err.response.data.message);
+          if(err.response?.data?.status === 'input error'){
+            setError(err.response.data.message);
+          }
+          else{
+            setError({});
+            showToast(err.response?.data?.message || "Failed to send verification email. Please try again.", "error");
+          }
         }
-        else{
-          setError({});
-          showToast(err.response?.data?.message || "Failed to send verification email. Please try again.", "error");
-        }
+      finally {
+        setLoading(false);
       }
   };
 
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-        <CircularProgress />
+        <CircularProgress size={30} />
       </Box>
     );
   }
@@ -77,7 +82,7 @@ useEffect(() => {
           textAlign: "center",
         }}
       >
-      <Box >
+      <Box component="form" onSubmit={handleClick}>
         {errorToken ? <Box m={2}>
           {message}
         </Box> :
@@ -91,15 +96,15 @@ useEffect(() => {
             variant="outlined"
             error={!!error.email}
             helperText={error.email}
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <Button
             variant="contained"
             sx={{ mt: 2 }}
-            onClick={handleClick}
-            disabled= {false}
+            type="submit"
           >
-            Generate New Verification Email
+            Generate New verification link
           </Button>
         </>
 }

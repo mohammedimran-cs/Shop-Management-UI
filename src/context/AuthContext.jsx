@@ -66,16 +66,16 @@ export function AuthProvider({ children }) {
   return (
     <AuthContext.Provider value={{ user, login, logout, showToast }}>
       {children}
-        <Snackbar
-    open={toast.open}
-    autoHideDuration={toast.time}
-    onClose={() => setToast({ ...toast, open: false })}
-    anchorOrigin={{ vertical: "top", horizontal: "center" }}
-    >
-    <Alert severity={toast.severity} sx={{ width: "100%" }}>
-      {toast.message}
-    </Alert>
-   </Snackbar>
+      <Snackbar
+        open={toast.open}
+        autoHideDuration={toast.time}
+        onClose={() => setToast({ ...toast, open: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert severity={toast.severity} sx={{ width: "100%" }}>
+          {toast.message}
+        </Alert>
+      </Snackbar>
     </AuthContext.Provider>
   );
 }

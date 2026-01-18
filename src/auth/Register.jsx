@@ -7,8 +7,9 @@ import {
   Box,
   Paper,
   Typography,
-  CircularProgress
+  CircularProgress,
 } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import api from "../api/api";
 
 export default function Register() {
@@ -121,6 +122,12 @@ export default function Register() {
             <Button onClick={() => navigate("/verify")}>Generate verification Link</Button>
           </Box>}
         </Box>
+        <Button 
+          sx ={{ position: "absolute", top: 20, left: 20 }}
+          onClick={() => navigate(-1)}
+        >
+          Login
+        </Button>
       </Paper>
     </Box>
   );

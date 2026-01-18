@@ -1,6 +1,7 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import Navbar from "../components/Navbar";
 
 export default function Layout() {
   const { user } = useContext(AuthContext);
@@ -11,7 +12,7 @@ export default function Layout() {
 
   return (
     <div>
-      {/* Later: Navbar, Sidebar */}
+      <Navbar />
       <Outlet />
     </div>
   );

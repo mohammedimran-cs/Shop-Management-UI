@@ -20,28 +20,28 @@ export function AuthProvider({ children }) {
     setUser(null);
   };
 
-    useEffect(() => {
-        const loadUser = async () => {
-            const token = localStorage.getItem("token");
+  useEffect(() => {
+    const loadUser = async () => {
+        const token = localStorage.getItem("token");
 
-            if (!token) {
-            setLoading(false);
-            return;
-            }
+        if (!token) {
+        setLoading(false);
+        return;
+        }
 
-            try {
-            const res = await api.get("/auth/me");
-            setUser(res.data);   // { email, role }
-            } catch (err) {
-            localStorage.removeItem("token");
-            setUser(null);
-            } finally {
-            setLoading(false);
-            }
-        };
+        try {
+        const res = await api.get("/auth/me");
+        setUser(res.data);   // { email, role }
+        } catch (err) {
+        localStorage.removeItem("token");
+        setUser(null);
+        } finally {
+        setLoading(false);
+        }
+    };
 
-        loadUser();
-    }, []);
+      loadUser();
+  }, []);
 
   const showToast = (message, severity = "success", time = 3000) => {
    setToast({ open: true, message, severity, time });

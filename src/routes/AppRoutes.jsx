@@ -3,6 +3,7 @@ import Login from "../auth/Login";
 import Register from "../auth/Register";
 import Home from "../pages/Home";
 import Products from "../pages/Products";
+import Billing from "../pages/Billing";
 import Layout from "../pages/Layout";
 import Verify from "../auth/Verify";
 import ResetPassword from "../auth/ResetPassword";
@@ -25,8 +26,9 @@ export default function AppRoutes() {
 
         {/* Protected */}
         <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products />} />
+          <Route path="/" element={<Products />} />
+          {/* <Route path="/products" element={<Products />} /> */}
+          <Route path="/billing" element={<Billing />} />
         </Route>
 
       </Routes>

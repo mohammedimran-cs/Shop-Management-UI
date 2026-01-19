@@ -40,6 +40,9 @@ export default function Navbar() {
         <ListItem button component={Link} to="/billing">
           <ListItemText primary="Billing" />
         </ListItem>
+        <ListItem button component={Link} to="/setting">
+          <ListItemText primary="Setting" />
+        </ListItem>
       </List>
 
       <Divider />
@@ -90,6 +93,9 @@ export default function Navbar() {
 
             <Button color="inherit" component={Link} to="/Billing">
               Billing
+            </Button>
+            <Button color="inherit" component={Link} to="/setting">
+              Setting
             </Button>
 
             {user && (

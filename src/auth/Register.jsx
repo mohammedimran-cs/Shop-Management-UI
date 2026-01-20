@@ -25,6 +25,7 @@ export default function Register() {
       ...form,
       [e.target.name]: e.target.value
     });
+    setErrors({...errors, [e.target.name]: ""});
   };
 
   const handleSubmit = async (e) => {
@@ -122,12 +123,12 @@ export default function Register() {
             <Button onClick={() => navigate("/verify")}>Generate verification Link</Button>
           </Box>}
         </Box>
-        <Button 
+        {/* <Button 
           sx ={{ position: "absolute", top: 20, left: 20 }}
           onClick={() => navigate(-1)}
         >
           Login
-        </Button>
+        </Button> */}
       </Paper>
     </Box>
   );

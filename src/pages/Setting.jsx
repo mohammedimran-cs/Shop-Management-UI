@@ -93,7 +93,7 @@ export default function Settings() {
     } catch(err) {
         setToast({
             open: true,
-            message: "Failed to add category",
+            message: err.response?.data?.message || "Failed to add category",
             severity: "error",
         });
     }

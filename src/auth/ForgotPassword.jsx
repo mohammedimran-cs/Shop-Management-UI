@@ -56,7 +56,12 @@ const ForgotPassword = () => {
               error={!!errors.email}
               helperText={errors.email}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name='email'
+              onChange={(e) => 
+                {
+                    setEmail(e.target.value)
+                    setErrors({...errors, [e.target.name]: ""});
+                }}
             />
             <Button onClick={handlClick}
               variant="contained"

@@ -13,11 +13,28 @@ import Divider from "@mui/material/Divider";
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
+import { Avatar, Menu, MenuItem} from "@mui/material";
+import Logout from "@mui/icons-material/Logout";
+import { NavLink } from "react-router-dom";
+
+
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const aOpen = Boolean(anchorEl);
+
 
   const toggleDrawer = (state) => {
     setOpen(state);
@@ -30,33 +47,94 @@ export default function Navbar() {
   const drawerLinks = (
     <Box sx={{ width: 250 }} role="presentation" onClick={() => toggleDrawer(false)}>
       <List>
-        {/* <ListItem button component={Link} to="/">
-          <ListItemText primary="Home" />
-        </ListItem> */}
+      <ListItem
+        button
+        component={NavLink}
+        to="/"
+        sx={{
+          "&.active": {
+            backgroundColor: "#e3f2fd",
+          },
+          "&.active .MuiListItemText-primary": {
+            color: "#1976d2",      // ✅ BLUE WHEN SELECTED
+            fontWeight: "bold",
+          },
+          "&:hover": {
+            backgroundColor: "#f1f1f1",
+          },
+        }}
+      >
+        <ListItemText primary="Products" />
+      </ListItem>
 
-        <ListItem button component={Link} to="/">
-          <ListItemText primary="Products" />
-        </ListItem>
-        <ListItem button component={Link} to="/billing">
-          <ListItemText primary="Billing" />
-        </ListItem>
-        <ListItem button component={Link} to="/setting">
-          <ListItemText primary="Setting" />
-        </ListItem>
+      <ListItem
+        button
+        component={NavLink}
+        to="/billing"
+        sx={{
+          "&.active": {
+            backgroundColor: "#e3f2fd",
+          },
+          "&.active .MuiListItemText-primary": {
+            color: "#1976d2",
+            fontWeight: "bold",
+          },
+          "&:hover": {
+            backgroundColor: "#f1f1f1",
+          },
+        }}
+      >
+        <ListItemText primary="Billing" />
+      </ListItem>
+
+      <ListItem
+        button
+        component={NavLink}
+        to="/setting"
+        sx={{
+          "&.active": {
+            backgroundColor: "#e3f2fd",
+          },
+          "&.active .MuiListItemText-primary": {
+            color: "#1976d2",
+            fontWeight: "bold",
+          },
+          "&:hover": {
+            backgroundColor: "#f1f1f1",
+          },
+        }}
+      >
+        <ListItemText primary="Setting" />
+      </ListItem>
+
       </List>
-
       <Divider />
 
       <List>
         {user && (
           <>
-            {/* <ListItem>
-              <ListItemText primary={user.email} />
-            </ListItem> */}
-
-            <ListItem button onClick={handleLogout}>
-              <ListItemText primary="Logout" />
+            <ListItem>
+              <ListItemText primary={user.email}
+                sx={{ 
+                      whiteSpace: "normal",
+                      wordBreak: "break-word",
+                      lineHeight: 1.3
+                }}
+              />
             </ListItem>
+
+            <Box sx={{ px: 2, mt: 1 }}>
+              <Button 
+                variant="contained"
+                color="primary"
+                
+                onClick={handleLogout}
+              >
+              <Logout fontSize="small" sx={{ mr: 1 }} />
+                Logout
+              </Button>
+            </Box>
+
           </>
         )}
       </List>
@@ -83,32 +161,99 @@ export default function Navbar() {
 
           {/* Desktop Menu */}
           <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
-            <Button color="inherit" component={Link} to="/">
-              products
-            </Button>
+        <Button
+            color="inherit"
+            component={NavLink}
+            to="/"
+            sx={{
+              "&.active": {
+                color: "#ffffff",
+                fontWeight: "bold",
+                borderBottom: "2px solid #1976d2", // nice underline effect
+              },
+            }}
+          >
+            Products
+          </Button>
 
-            {/* <Button color="inherit" component={Link} to="/products">
-              Products
-            </Button> */}
+          <Button
+            color="inherit"
+            component={NavLink}
+            to="/billing"
+            sx={{
+              "&.active": {
+                color: "#ffffff",
+                fontWeight: "bold",
+                borderBottom: "2px solid #1976d2",
+              },
+            }}
+          >
+            Billing
+          </Button>
 
-            <Button color="inherit" component={Link} to="/Billing">
-              Billing
-            </Button>
-            <Button color="inherit" component={Link} to="/setting">
-              Setting
-            </Button>
+          <Button
+            color="inherit"
+            component={NavLink}
+            to="/setting"
+            sx={{
+              "&.active": {
+                color: "#ffffff",
+                fontWeight: "bold",
+                borderBottom: "2px solid #1976d2",
+              },
+            }}
+          >
+            Setting
+          </Button>
 
-            {user && (
-              <>
-                {/* <Typography sx={{ display: "flex", alignItems: "center" }}>
-                  {user.email}
-                </Typography> */}
+          {user && (
+            <>
+              <Avatar
+                onClick={handleOpen}
+                sx={{
+                  bgcolor: "#ffffff",
+                  cursor: "pointer",
+                  width: 40,
+                  height: 40,
+                }}
+              >
+                <Typography variant="h6" fontWeight={"bold"}  color="#1976d2">
+                  {user.email ? user.email.charAt(0).toUpperCase() : "U"}
+                </Typography>
+              </Avatar>
 
-                <Button color="inherit" onClick={handleLogout}>
-                  Logout
-                </Button>
-              </>
-            )}
+              <Menu
+                anchorEl={anchorEl}
+                open={aOpen}
+                onClose={handleClose}
+                PaperProps={{
+                  sx: { mt: 1, width: 220, p: 1 },
+                }}
+              >
+              <Box sx={{ p: 1, maxWidth: 220 }}>
+                <Typography 
+                  variant="body2" 
+                  // fontWeight="bold"
+                  sx={{ 
+                    whiteSpace: "normal",
+                    wordBreak: "break-word",
+                    lineHeight: 1.3
+                  }}
+                >
+                  {user.email || "User"}
+                </Typography>
+              </Box>
+
+                <Divider />
+
+                <MenuItem onClick={handleLogout} sx={{ mt: 1 }}>
+                  <Logout fontSize="small" sx={{ mr: 1 }} />
+                  Logout 
+                </MenuItem>
+              </Menu>
+            </>
+          )}
+
           </Box>
         </Toolbar>
       </AppBar>

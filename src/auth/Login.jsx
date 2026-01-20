@@ -23,6 +23,7 @@ export default function Login() {
       ...form,
       [e.target.name]: e.target.value
     });
+    setErrors({...errors, [e.target.name]: ""});
   };
 
   const handleSubmit = async (e) => {

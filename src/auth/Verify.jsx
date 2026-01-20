@@ -61,7 +61,7 @@ useEffect(() => {
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-        <CircularProgress size={30} />
+        <CircularProgress  />
       </Box>
     );
   }

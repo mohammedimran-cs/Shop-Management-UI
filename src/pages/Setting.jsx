@@ -25,6 +25,7 @@ import {
   DialogContent,
   DialogActions,
   Tooltip,
+  CircularProgress
 } from "@mui/material";
 
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -42,6 +43,7 @@ export default function Settings() {
 
   const [deleteId, setDeleteId] = useState(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [loading,setLoading] = useState(true);
 
   const [toast, setToast] = useState({
     open: false,
@@ -56,16 +58,19 @@ export default function Settings() {
       const prods = await getAllProducts();
       setCategories(cats);
       setProducts(prods);
+      setLoading(false);
     };
 
     load();
   }, []);
 
   const refreshData = async () => {
+    setLoading(true);
     const cats = await getAllCategories();
     const prods = await getAllProducts();
     setCategories(cats);
     setProducts(prods);
+    setLoading(false);
   };
 
   const hasProducts = (categoryId) => {
@@ -158,6 +163,14 @@ export default function Settings() {
       setDeleteId(null);
     }
   };
+
+  if(loading){
+      return (
+          <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+              <CircularProgress />
+          </Box>
+      )
+  }
 
   return (
     <Container sx={{ mt: 4 }}>

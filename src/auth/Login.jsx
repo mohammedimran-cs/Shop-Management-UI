@@ -107,7 +107,7 @@ export default function Login() {
             disabled={loading}
             sx={{ mt: 2 }}
           >
-            {loading ? <CircularProgress size={24} sx={{ color: "blue" }} />
+            {loading ? <CircularProgress  />
              : "Sign In"
             }
           </Button>

@@ -177,7 +177,7 @@ export default function Products() {
   if(loading){
     return (
         <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-            <CircularProgress size={30} sx={{ color: "blue"}} />
+            <CircularProgress  />
         </Box>
     )
   }

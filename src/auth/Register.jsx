@@ -115,7 +115,7 @@ export default function Register() {
             disabled={loading}
             sx={{ mt: 2 }}
           >
-            {loading ? <CircularProgress size={24} sx={{ color: "white" }} />
+            {loading ? <CircularProgress  />
               : "Register"
             }
           </Button>

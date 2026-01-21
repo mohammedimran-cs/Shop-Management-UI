@@ -205,9 +205,9 @@ export default function Products() {
         <Table stickyHeader>
           <TableHead>
             <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
-              <TableCell><b>#</b></TableCell>
+              <TableCell><b>S.NO</b></TableCell>
               <TableCell><b>Name</b></TableCell>
-              <TableCell><b>Whole Sale Price</b></TableCell>
+              <TableCell><b>WS.Price</b></TableCell>
               <TableCell><b>Price</b></TableCell>
               <TableCell><b>Stock</b></TableCell>
               <TableCell><b>Barcode</b></TableCell>

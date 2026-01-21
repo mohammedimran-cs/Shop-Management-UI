@@ -17,6 +17,7 @@ import {
   TableRow,
   Snackbar,
   Alert,
+  IconButton
 } from "@mui/material";
 
 export default function Billing() {
@@ -276,15 +277,34 @@ const downloadPDF = (orderData = {}, items = []) => {
                       <TableCell>{item.name}</TableCell>
                       <TableCell>₹ {item.price}</TableCell>
                       <TableCell>
-                        <TextField
-                          type="number"
-                          size="small"
-                          value={item.qty}
-                          onChange={e =>
-                            changeQty(item.productId, Number(e.target.value))
-                          }
-                          sx={{ width: 70 }}
-                        />
+                        <Box display="flex" alignItems="center" gap={1}>
+                          <IconButton
+                            size="small"
+                            onClick={() => changeQty(item.productId, item.qty - 1)}
+                            disabled={item.qty <= 1}
+                          >
+                            -
+                          </IconButton>
+
+                          <TextField
+                            type="number"
+                            size="small"
+                            value={item.qty}
+                            // onChange={e =>
+                            //   changeQty(item.productId, Number(e.target.value))
+                            // }
+                            sx={{ width: 70 }}
+                            disabled = {true}
+                          />
+
+                          <IconButton
+                            size="small"
+                            onClick={() => changeQty(item.productId, item.qty + 1)}
+                          >
+                            +
+                          </IconButton>
+                        </Box>
+
                       </TableCell>
                       <TableCell>
                         ₹ {item.price * item.qty}

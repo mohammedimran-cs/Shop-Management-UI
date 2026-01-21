@@ -101,20 +101,9 @@ const downloadPDF = (orderData = {}, items = []) => {
   // -------- ORDER DETAILS --------
   doc.setFontSize(10);
 
-  const format12Hour = dateStr => {
-    const iso = dateStr.replace(" ", "T"); // make it ISO compatible
-    return new Date(iso).toLocaleString("en-US", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "numeric",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: true
-    });
-};
-
-  const dateText = orderData.billDate ? format12Hour(orderData.billDate) : format12Hour(new Date().toISOString());
+  const dateText = orderData.billDate
+    ? new Date(orderData.billDate).toLocaleString()
+    : new Date().toLocaleString();
 
   doc.text(`Order ID   : ${orderData.orderId || "N/A"}`, 14, 30);
   doc.text(`Date       : ${dateText}`, 14, 36);

@@ -86,6 +86,7 @@ export default function Settings() {
         });
         return;
     }
+    setLoading(true);
     try {
       await addCategory({ name: newCategory });
       await refreshData();
@@ -101,6 +102,9 @@ export default function Settings() {
             message: err.response?.data?.message || "Failed to add category",
             severity: "error",
         });
+    }
+    finally{
+      setLoading(false);
     }
   };
 
@@ -118,7 +122,7 @@ export default function Settings() {
       });
       return;
     }
-
+    setLoading(true);
     try {
       await api.put(`/categories/${editingId}`, { name: editingName });
       await refreshData();
@@ -136,6 +140,9 @@ export default function Settings() {
         severity: "error",
       });
     }
+    finally {
+      setLoading(false);
+    }
   };
 
   const openDeleteConfirm = (id) => {
@@ -144,6 +151,7 @@ export default function Settings() {
   };
 
   const handleDeleteConfirmed = async () => {
+    setLoading(true);
     try {
       await api.delete(`/categories/${deleteId}`);
       await refreshData();
@@ -161,6 +169,7 @@ export default function Settings() {
     } finally {
       setConfirmOpen(false);
       setDeleteId(null);
+      setLoading(false);
     }
   };
 

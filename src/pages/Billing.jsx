@@ -17,7 +17,8 @@ import {
   TableRow,
   Snackbar,
   Alert,
-  IconButton
+  IconButton,
+  CircularProgress
 } from "@mui/material";
 
 export default function Billing() {
@@ -26,9 +27,11 @@ export default function Billing() {
   const [billItems, setBillItems] = useState([]);
   const [discount, setDiscount] = useState("");
   const [toast, setToast] = useState({ open: false, message: "", severity: "success" });
+  const [loading,setLoading] = useState(true);
 
   useEffect(() => {
     getAllProducts().then(setProducts);
+    setLoading(false);
   }, []);
 
   // Filter products by search
@@ -154,6 +157,7 @@ const downloadPDF = (orderData = {}, items = []) => {
       return;
     }
 
+    setLoading(true);
     try {
       const payload = {
         items: billItems.map(i => ({
@@ -183,22 +187,18 @@ const downloadPDF = (orderData = {}, items = []) => {
         severity: "error",
       });
     }
-    //   // ===== PDF GENERATION (separate try) =====
-    // try {
-    //   downloadPDF(res.data, billItems || []);
-    // } catch (pdfError) {
-    //   console.error("PDF failed:", pdfError);
-    //   setToast({
-    //     open: true,
-    //     message: "Bill saved, but PDF failed to generate",
-    //     severity: "warning",
-    //   });
-    // }
-
-    // // Reset bill only after everything
-    // setBillItems([]);
-    // setDiscount("");
+    finally {
+      setLoading(false);
+    }
   };
+
+  if(loading){
+      return (
+          <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+              <CircularProgress />
+          </Box>
+      )
+  }
 
   return (
     <Container sx={{ mt: 3 }}>

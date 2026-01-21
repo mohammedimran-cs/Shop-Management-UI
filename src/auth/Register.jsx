@@ -72,8 +72,8 @@ export default function Register() {
       height="100vh"
     >
       <Paper elevation={4} sx={{ padding: 4, width: 400 }}>
-        <Typography variant="h5" align="center" mb={2}>
-          Create Account
+        <Typography variant="h5" align="center" mb={2} fontWeight={550}>
+          CREATE ACCOUNT 🔥
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit}>

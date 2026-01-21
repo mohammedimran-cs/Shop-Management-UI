@@ -82,7 +82,7 @@ export default function Register() {
             label="Username"
             name="userName"
             margin="normal"
-            errors={!!errors.userName}
+            error={!!errors.userName}
             helperText={errors.userName}
             onChange={handleChange}
           />
